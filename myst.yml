@@ -1,0 +1,24 @@
+# Configuración del libro (Jupyter Book 2 / MyST).
+# Docs: https://mystmd.org/guide
+version: 1
+project:
+  title: Introducción a la Hidrología
+  authors:
+    - name: Carlos D. Hoyos
+      affiliations:
+        - Universidad Nacional de Colombia, Facultad de Minas
+  github: https://github.com/carlosdhoyos/intro_2_hydrology
+  license: CC-BY-4.0
+  bibliography:
+    - referencias.bib
+  # Tabla de contenido: agrega aquí cada capítulo nuevo, en orden.
+  toc:
+    - file: index.md
+    - title: Capítulos
+      children:
+        - file: capitulos/01-ciclo-hidrologico.md
+    - file: recursos.md
+site:
+  template: book-theme
+  options:
+    logo_text: Introducción a la Hidrología

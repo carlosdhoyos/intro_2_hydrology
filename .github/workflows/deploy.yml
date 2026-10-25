@@ -1,0 +1,46 @@
+name: Publicar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # El libro se publica en https://carlosdhoyos.github.io/intro_2_hydrology/
+      BASE_URL: /intro_2_hydrology
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Construir el libro
+        run: npx --yes jupyter-book@2.1.7 build --html
+      - name: Copiar PDFs e interactivos al sitio
+        run: |
+          cp -r documentos interactivos _build/html/
+          find _build/html/documentos _build/html/interactivos -name README.md -delete
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _build/html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
