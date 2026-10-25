@@ -30,7 +30,7 @@ jobs:
       - name: Copiar PDFs e interactivos al sitio
         run: |
           cp -r documentos interactivos _build/html/
-          find _build/html/documentos _build/html/interactivos -name README.md -delete
+          find _build/html/documentos _build/html/interactivos -name "*.md" -delete
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _build/html
